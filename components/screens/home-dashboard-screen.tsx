@@ -320,16 +320,16 @@ export function HomeDashboardScreen({
       {/* Bottom Navigation */}
       <div className="flex items-center justify-around py-4 bg-white border-t border-border">
         {[
-          { id: "home", icon: Home, label: "Home" },
-          { id: "smart", icon: CheckSquare, label: "Smart" },
-          { id: "reports", icon: BarChart3, label: "Reports" },
-          { id: "account", icon: User, label: "Account" },
+          { id: "home", icon: Home, label: "Home", screen: "home-dashboard" },
+          { id: "smart", icon: CheckSquare, label: "Smart", screen: "smart-scenes" },
+          { id: "reports", icon: BarChart3, label: "Reports", screen: "reports" },
+          { id: "account", icon: User, label: "Account", screen: "account-settings" },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => {
               if (tab.id === "home") return; // already on home
-              if (onNavigate) onNavigate("smart-scenes");
+              if (onNavigate) onNavigate(tab.screen);
             }}
             className={`flex flex-col items-center gap-1 ${
               tab.id === "home" ? "text-primary" : "text-muted-foreground"
