@@ -48,6 +48,19 @@ import {
   SelectSmartSceneScreen,
   ScheduleTimeTriggerScreen,
   DelayActionScreen,
+  ManageSmartScenesScreen,
+  HomeManagementScreen,
+  MyHomeScreen,
+  RoomManagementScreen,
+  ReportsScreen,
+  DeviceReportDetailScreen,
+  AccountSettingsScreen,
+  SmartScenesLogsScreen,
+  ManageRoomsScreen,
+  HomeMemberDetailScreen,
+  AddMemberScreen,
+  JoinHomeScreen,
+  CreateHomeScreen,
 } from "@/components/screens"
 
 type Screen =
@@ -97,6 +110,19 @@ type Screen =
   | "select-smart-scene"
   | "schedule-time-trigger"
   | "delay-action"
+  | "manage-smart-scenes"
+  | "smart-scenes-logs"
+  | "home-management"
+  | "my-home"
+  | "room-management"
+  | "reports"
+  | "device-report-detail"
+  | "account-settings"
+  | "manage-rooms"
+  | "home-member-detail"
+  | "add-member"
+  | "join-home"
+  | "create-home"
   | "complete"
 
 interface SelectedDevice {
@@ -106,7 +132,7 @@ interface SelectedDevice {
 }
 
 export default function SmartifyApp() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>("splash")
+  const [currentScreen, setCurrentScreen] = useState<Screen>("account-settings")
   const [navigationHistory, setNavigationHistory] = useState<Screen[]>([])
   const [currentHome, setCurrentHome] = useState("My Home")
   const [selectedDevice, setSelectedDevice] = useState<SelectedDevice>({
@@ -534,6 +560,104 @@ export default function SmartifyApp() {
           <DelayActionScreen
             onBack={goBack}
             onContinue={() => navigateTo("trigger-config")}
+          />
+        )
+
+      case "manage-smart-scenes":
+        return (
+          <ManageSmartScenesScreen
+            onBack={goBack}
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "smart-scenes-logs":
+        return (
+          <SmartScenesLogsScreen
+            onBack={goBack}
+          />
+        )
+
+      case "home-management":
+        return (
+          <HomeManagementScreen
+            onBack={goBack}
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+            onSelectHome={() => navigateTo("my-home")}
+          />
+        )
+
+      case "my-home":
+        return (
+          <MyHomeScreen
+            onBack={goBack}
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "room-management":
+        return (
+          <RoomManagementScreen
+            onBack={goBack}
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "reports":
+        return (
+          <ReportsScreen
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "device-report-detail":
+        return (
+          <DeviceReportDetailScreen
+            onBack={goBack}
+          />
+        )
+
+      case "account-settings":
+        return (
+          <AccountSettingsScreen
+            onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "manage-rooms":
+        return (
+          <ManageRoomsScreen
+            onBack={goBack}
+          />
+        )
+
+      case "home-member-detail":
+        return (
+          <HomeMemberDetailScreen
+            onBack={goBack}
+          />
+        )
+
+      case "add-member":
+        return (
+          <AddMemberScreen
+            onBack={goBack}
+          />
+        )
+
+      case "join-home":
+        return (
+          <JoinHomeScreen
+            onBack={goBack}
+            onJoin={() => navigateTo("home-management")}
+          />
+        )
+
+      case "create-home":
+        return (
+          <CreateHomeScreen
+            onBack={goBack}
+            onSave={() => navigateTo("home-management")}
           />
         )
 
