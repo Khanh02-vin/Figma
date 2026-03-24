@@ -56,6 +56,11 @@ import {
   DeviceReportDetailScreen,
   AccountSettingsScreen,
   SmartScenesLogsScreen,
+  ManageRoomsScreen,
+  HomeMemberDetailScreen,
+  AddMemberScreen,
+  JoinHomeScreen,
+  CreateHomeScreen,
 } from "@/components/screens"
 
 type Screen =
@@ -113,6 +118,11 @@ type Screen =
   | "reports"
   | "device-report-detail"
   | "account-settings"
+  | "manage-rooms"
+  | "home-member-detail"
+  | "add-member"
+  | "join-home"
+  | "create-home"
   | "complete"
 
 interface SelectedDevice {
@@ -122,7 +132,7 @@ interface SelectedDevice {
 }
 
 export default function SmartifyApp() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>("smart-scenes")
+  const [currentScreen, setCurrentScreen] = useState<Screen>("account-settings")
   const [navigationHistory, setNavigationHistory] = useState<Screen[]>([])
   const [currentHome, setCurrentHome] = useState("My Home")
   const [selectedDevice, setSelectedDevice] = useState<SelectedDevice>({
@@ -611,6 +621,43 @@ export default function SmartifyApp() {
         return (
           <AccountSettingsScreen
             onNavigate={(screen) => navigateTo(screen as Screen)}
+          />
+        )
+
+      case "manage-rooms":
+        return (
+          <ManageRoomsScreen
+            onBack={goBack}
+          />
+        )
+
+      case "home-member-detail":
+        return (
+          <HomeMemberDetailScreen
+            onBack={goBack}
+          />
+        )
+
+      case "add-member":
+        return (
+          <AddMemberScreen
+            onBack={goBack}
+          />
+        )
+
+      case "join-home":
+        return (
+          <JoinHomeScreen
+            onBack={goBack}
+            onJoin={() => navigateTo("home-management")}
+          />
+        )
+
+      case "create-home":
+        return (
+          <CreateHomeScreen
+            onBack={goBack}
+            onSave={() => navigateTo("home-management")}
           />
         )
 

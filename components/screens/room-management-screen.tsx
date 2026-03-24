@@ -15,6 +15,7 @@ const initialRooms = [
   { id: 4, name: "Kitchen" },
   { id: 5, name: "Dining Room" },
   { id: 6, name: "Backyard" },
+  { id: 7, name: "Bedroom 2" },
 ];
 
 const suggestedRooms = [
@@ -70,7 +71,10 @@ export function RoomManagementScreen({ onBack, onNavigate }: RoomManagementScree
           <ArrowLeft className="w-6 h-6 text-foreground" />
         </button>
         <h1 className="text-xl font-bold text-foreground">Room Management</h1>
-        <button className="w-10 h-10 flex items-center justify-center">
+        <button 
+          onClick={() => onNavigate?.("manage-rooms")}
+          className="w-10 h-10 flex items-center justify-center"
+        >
           <LayoutGrid className="w-6 h-6 text-foreground" />
         </button>
       </div>

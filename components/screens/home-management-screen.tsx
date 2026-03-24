@@ -14,6 +14,7 @@ const homes = [
   { id: 3, name: "My Office" },
   { id: 4, name: "My Parents' House" },
   { id: 5, name: "My Garden" },
+  { id: 6, name: "My Rental House" },
 ];
 
 export function HomeManagementScreen({ onBack, onNavigate, onSelectHome }: HomeManagementScreenProps) {

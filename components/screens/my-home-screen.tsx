@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, MoreVertical, ChevronRight, Plus } from "lucide-react";
+import { ArrowLeft, MoreVertical, ChevronRight, Plus, Check } from "lucide-react";
 
 interface MyHomeScreenProps {
   onBack: () => void;
@@ -31,14 +31,33 @@ const members = [
     email: "robert.hawkins@yourdo...",
     role: "Member",
     isYou: false,
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+  },
+  {
+    id: 4,
+    name: "Sarah Wilona",
+    email: "sarah.wilona@yourdom...",
+    role: "Member",
+    isYou: false,
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
   },
 ];
 
 export function MyHomeScreen({ onBack, onNavigate }: MyHomeScreenProps) {
   const [showEditNameModal, setShowEditNameModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [homeName, setHomeName] = useState("My Home");
   const [editingName, setEditingName] = useState("My Home");
+
+  const handleDeleteHome = () => {
+    setShowDeleteModal(false);
+    setShowSuccessToast(true);
+    setTimeout(() => {
+      setShowSuccessToast(false);
+      onBack();
+    }, 2000);
+  };
 
   return (
     <div className="mobile-container flex flex-col bg-muted min-h-screen relative">
@@ -120,13 +139,17 @@ export function MyHomeScreen({ onBack, onNavigate }: MyHomeScreenProps) {
       <div className="mx-4 mt-4 bg-white rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-muted">
           <span className="font-semibold text-foreground">Home Members (4)</span>
-          <button className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+          <button 
+            onClick={() => onNavigate?.("add-member")}
+            className="w-8 h-8 rounded-full bg-primary flex items-center justify-center"
+          >
             <Plus className="w-4 h-4 text-white" />
           </button>
         </div>
         {members.map((member, index) => (
           <button
             key={member.id}
+            onClick={() => !member.isYou && onNavigate?.("home-member-detail")}
             className={`w-full flex items-center gap-4 px-5 py-4 ${
               index !== members.length - 1 ? "border-b border-muted" : ""
             }`}
@@ -153,7 +176,10 @@ export function MyHomeScreen({ onBack, onNavigate }: MyHomeScreenProps) {
 
       {/* Delete Home Button */}
       <div className="mx-4 mt-4 mb-8">
-        <button className="w-full py-4 rounded-full border-2 border-red-500 text-red-500 font-semibold bg-white">
+        <button 
+          onClick={() => setShowDeleteModal(true)}
+          className="w-full py-4 rounded-full border-2 border-red-500 text-red-500 font-semibold bg-white"
+        >
           Delete Home
         </button>
       </div>
@@ -190,6 +216,51 @@ export function MyHomeScreen({ onBack, onNavigate }: MyHomeScreenProps) {
                 Save
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Home Modal */}
+      {showDeleteModal && (
+        <div className="absolute inset-0 bg-black/50 flex items-end justify-center z-50">
+          <div className="bg-white rounded-t-3xl w-full p-6 animate-slide-up">
+            <div className="w-12 h-1 bg-muted rounded-full mx-auto mb-6" />
+            <h2 className="text-xl font-semibold text-red-500 text-center mb-4">Delete Home</h2>
+            <div className="border-t border-border pt-4">
+              <p className="text-center text-lg mb-2">
+                Are you sure you want to delete this home?
+              </p>
+              <p className="text-center text-muted-foreground text-sm mb-6">
+                After the home is deleted, all members will be removed, and all devices will be unpaired.
+              </p>
+            </div>
+            <div className="border-t border-border pt-4 flex gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 py-4 rounded-full bg-muted text-foreground font-semibold"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteHome}
+                className="flex-1 py-4 rounded-full bg-primary text-primary-foreground font-semibold"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Toast */}
+      {showSuccessToast && (
+        <div className="absolute inset-0 bg-black/50 flex items-end justify-center z-50">
+          <div className="bg-white rounded-t-3xl w-full p-6 text-center animate-slide-up">
+            <div className="w-12 h-1 bg-muted rounded-full mx-auto mb-6" />
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="w-8 h-8 text-white" />
+            </div>
+            <p className="text-lg">"{homeName}" has been successfully deleted!</p>
           </div>
         </div>
       )}
